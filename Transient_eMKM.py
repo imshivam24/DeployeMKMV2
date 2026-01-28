@@ -372,10 +372,9 @@ if run_pressed:
 with st.expander("ℹ️ How to use"):
     st.markdown("""
     1. **Upload your Input Excel file**: Must contain the required sheets (Reactions, Local Environment, etc.).
-    2. **Set the Executable Path**: Path to your local `mkmcxx.exe`.
-    3. **Configure Settings**: Adjust pH, Voltage range, and other simulation parameters.
-    4. **Run Simulation**: Click the button and wait for results.
-    5. **Download**: download the plots and data as a ZIP file.
+    2. **Configure Settings**: Adjust pH, Voltage range, and other simulation parameters.
+    3. **Run Simulation**: Click the button and wait for results.
+    4. **Download**: download the plots and data as a ZIP file.
     """)
 
 with st.expander("📥 Excel Input File Format"):

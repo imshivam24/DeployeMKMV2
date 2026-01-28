@@ -96,7 +96,12 @@ else:
     
     # Ensure it's executable
     try:
-        if os.path.exists(exe_path):
+        # DEBUG: Check if file exists and print directory contents
+        if not os.path.exists(exe_path):
+            st.error(f"⚠️ Binary not found at: {os.path.abspath(exe_path)}")
+            st.write(f"Current Directory: `{os.getcwd()}`")
+            st.write("Files in root:", os.listdir("."))
+        else:
             st_mode = os.stat(exe_path).st_mode
             os.chmod(exe_path, st_mode | stat.S_IEXEC)
     except Exception as e:

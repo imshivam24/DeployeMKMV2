@@ -92,18 +92,28 @@ if platform.system() == "Windows":
     exe_path = "D:/mkmcxx/mkmcxx-2.15.3-windows-x64/mkmcxx_2.15.3/bin/mkmcxx.exe"
 else:
     # Linux (Streamlit Cloud) Path - Assumes binary 'mkmcxx' is in root
-    exe_path = "./mkmcxx"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    exe_path = os.path.join(base_dir, "mkmcxx")
     
     # Ensure it's executable
     try:
-        # DEBUG: Check if file exists and print directory contents
+        # DEBUG: Check if file exists
         if not os.path.exists(exe_path):
-            st.error(f"⚠️ Binary not found at: {os.path.abspath(exe_path)}")
+            st.error(f"⚠️ Binary not found at: {exe_path}")
             st.write(f"Current Directory: `{os.getcwd()}`")
             st.write("Files in root:", os.listdir("."))
         else:
+            # Force executable permissions (sometimes Git loses them)
             st_mode = os.stat(exe_path).st_mode
             os.chmod(exe_path, st_mode | stat.S_IEXEC)
+            
+            # Verify permissions
+            new_mode = os.stat(exe_path).st_mode
+            if not (new_mode & stat.S_IEXEC):
+                st.warning(f"Failed to set executable bit! Mode: {oct(new_mode)}")
+            else:
+                st.success(f"Found binary at `{exe_path}` and set executable permissions.")
+                
     except Exception as e:
         logger.warning(f"Could not set executable permissions: {e}")
 

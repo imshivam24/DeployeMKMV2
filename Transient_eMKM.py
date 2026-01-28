@@ -373,9 +373,69 @@ with st.expander("ℹ️ How to use"):
     st.markdown("""
     1. **Upload your Input Excel file**: Must contain the required sheets (Reactions, Local Environment, etc.).
     2. **Set the Executable Path**: Path to your local `mkmcxx.exe`.
-    3. **Configure Settings**: Adjust pH, Voltage rnage, and other simulation parameters.
+    3. **Configure Settings**: Adjust pH, Voltage range, and other simulation parameters.
     4. **Run Simulation**: Click the button and wait for results.
     5. **Download**: download the plots and data as a ZIP file.
+    """)
+
+with st.expander("📥 Excel Input File Format"):
+    st.markdown("""
+    This Streamlit app runs electrochemical microkinetic modeling using the MKMCXXS1 package.
+    The model input is provided through an Excel file containing three required sheets.
+    
+    ⚠️ **Column names must match exactly for the file to be read correctly.**
+
+    ---
+
+    ### 🔁 Sheet 1: Reactions
+    This sheet defines the reaction network and kinetic parameters.
+
+    **Required Columns:**
+    - **Reactions**: Reaction written with reactants and products separated by an arrow (`->` or `→`).
+    - **G_f**: Forward activation barrier (J/mol).
+    - **G_b**: Backward activation barrier (J/mol).
+
+    **Notes:**
+    - Activation barriers (`G_f`, `G_b`) may be numeric values or Excel formulas.
+    - Excel formulas can reference the applied potential (`V`) from the Local Environment sheet to introduce potential-dependent kinetics.
+
+    ---
+
+    ### 🌍 Sheet 2: Local Environment
+    This sheet specifies the operating conditions of the system.
+
+    **Required Columns:**
+    - **Pressure**: System pressure in bar.
+    - **pH**: Solution pH (used to compute H⁺ and OH⁻ concentrations).
+    - **V**: Applied potential in volts vs RHE (Note: Code expects `V`, not `E_RHE`).
+
+    **Notes:**
+    - These values are read automatically and used to generate operating-condition-dependent MKM input files.
+    - pH-dependent concentrations of H⁺ and OH⁻ can be defined via Excel formulas in other sheets.
+
+    ---
+
+    ### 🔬 Sheet 3: Input-Output Species
+    This sheet lists all species participating in the system.
+
+    **Required Columns:**
+    - **Species**: Name of the chemical species.
+    - **Input MKMCXX**: Initial concentration or mole fraction (Note: Code expects exact header `Input MKMCXX`).
+
+    **Notes:**
+    - These values are used directly as species activities in the rate expressions.
+    - Set concentrations to zero for species not initially present.
+
+    ---
+
+    ### ⚙️ Activity Convention
+    MKMCXX normally assumes species activities are partial pressures. For electrochemical systems, this app automatically sets `PRESSURE = -1`.
+    This enables the use of concentrations or mole fractions (from the Input-Output Species sheet) as activities.
+
+    ### ℹ️ Important Notes
+    - Sheet names and column headers are **case-sensitive**.
+    - Do not rename or reorder required columns.
+    - Modify reaction parameters and conditions directly in Excel for rapid testing.
     """)
 
 # --- Citation ---

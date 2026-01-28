@@ -380,7 +380,7 @@ with st.expander("ℹ️ How to use"):
 
 with st.expander("📥 Excel Input File Format"):
     st.markdown("""
-    This Streamlit app runs electrochemical microkinetic modeling using the MKMCXXS1 package.
+    This Streamlit app runs electrochemical microkinetic modeling using the MKMCXX package.
     The model input is provided through an Excel file containing three required sheets.
     
     ⚠️ **Column names must match exactly for the file to be read correctly.**

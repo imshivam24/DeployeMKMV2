@@ -71,7 +71,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("⚛️ Microkinetic Modeling Application")
+st.title("⚛️ Transient Electrochemical Microkinetic Modeling Application")
 st.markdown("""
 **Here, we perform unsteady-state MKM (USS-MKM) with and without potential sweeping to capture transient dynamics and realistically model reaction kinetics.**
 """)

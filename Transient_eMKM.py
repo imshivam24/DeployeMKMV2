@@ -377,7 +377,7 @@ with st.expander("ℹ️ How to use"):
     4. **Download**: download the plots and data as a ZIP file.
     """)
 
-with st.expander("📥 Excel Input File Format"):
+with st.expander("📥 How to create Input Excel File"):
     st.markdown("""
     This Streamlit app runs electrochemical microkinetic modeling using the MKMCXX package.
     The model input is provided through an Excel file containing three required sheets.

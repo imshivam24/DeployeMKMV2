@@ -260,9 +260,9 @@ if st.session_state.get("simulation_complete"):
     st.markdown("---")
     st.subheader("⚡ Current Density Analysis")
         
-    st.markdown("Calculate current density using:")
-    st.latex(r"j = F \times \rho_{site} \times \sum (n_k \times r_k)")
-    st.info("where $F$ is Faraday's constant, $\\rho_{site}$ is site density, $n_k$ is electron count, and $r_k$ is reaction rate.")
+    st.markdown("Calculate current density of any specie i using:")
+    st.latex(r"j_i = F \times \rho_{site} \times n_i \times r_i")
+    st.info("where $F$ is Faraday's constant, $\\rho_{site}$ is site density, $n_i$ is electron consumed, and $r_i$ is production rate.")
 
     with st.expander("Configure Analysis", expanded=True):
         site_density = st.number_input("Site Density (mol/m²)", value=2.94e-5, format="%.2e")

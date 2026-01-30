@@ -284,10 +284,10 @@ if st.session_state.get("simulation_complete"):
         if st.button("🔄 Generate Analysis Plot"):
             with st.spinner("Calculating and Plotting..."):
                 try:
-                    plotter = CoveragePlotter(base_directory=st.session_state.output_base_dir)
-                    plotter.create_plots(
+                    create_plots(
                         pH_list=st.session_state.ph_list,
                         V_list=st.session_state.v_list,
+                        base_directory=st.session_state.output_base_dir,
                         save_plots=True,
                         output_dir=os.path.join(st.session_state.output_base_dir, "plots"),
                         site_density=site_density,

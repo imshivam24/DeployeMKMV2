@@ -254,6 +254,16 @@ if st.session_state.get("simulation_complete"):
             st.image(img_path, caption=os.path.basename(img_path))
     else:
         st.warning(f"No plots found initially in {base_dir}")
+    
+    # Coverage Table
+    summary_csv = os.path.join(base_dir, "coverage_summary.csv")
+    if os.path.exists(summary_csv):
+        st.subheader("📊 Coverage Data")
+        try:
+            df_cov = pd.read_csv(summary_csv)
+            st.dataframe(df_cov, use_container_width=True)
+        except Exception as e:
+            st.warning(f"Could not load coverage table: {e}")
 
     # 2. Current Density & Selectivity Analysis
     st.markdown("---")

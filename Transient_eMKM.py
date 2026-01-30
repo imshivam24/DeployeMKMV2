@@ -272,16 +272,31 @@ if st.session_state.get("simulation_complete"):
         
         target_species = st.multiselect("Target Species for Current Density", avail_species, default=default_targets)
         
-        st.write("**Species Electron Counts ($n_k$):**")
-        if 'electron_df' not in st.session_state:
-            defaults = {'CH3OH': 6, 'CH4': 8, 'CO': 2, 'HCOOH': 2, 'H2': 2, 'CH2O': 4}
-            data = [{"Species": s, "Electrons": defaults.get(s, 0)} for s in avail_species]
-            st.session_state.electron_df = pd.DataFrame(data)
+        st.write("**Species Electron Counts ($n_i$):**")
         
-        edited_df = st.data_editor(st.session_state.electron_df, num_rows="fixed", hide_index=True)
-        species_electrons = dict(zip(edited_df['Species'], edited_df['Electrons']))
+        # Prepare defaults - ensure we filter only species that are available
+        import json
+        default_electrons_map = {'CH3OH': 6, 'CH4': 8, 'CO': 2, 'HCOOH': 2, 'H2': 2, 'CH2O': 4}
+        # Pre-fill with reasonable defaults for known species, 0 for others
+        current_defaults = {s: default_electrons_map.get(s, 0) for s in avail_species}
         
-        if st.button("🔄 Generate Analysis Plot"):
+        # Recover text from session state if available or use defaults
+        if 'species_e_str_val' not in st.session_state:
+             st.session_state['species_e_str_val'] = json.dumps(current_defaults, indent=2)
+
+        species_e_str = st.text_area("Species Electron Count (JSON)", 
+                                   value=st.session_state['species_e_str_val'],
+                                   height=150,
+                                   key="species_e_str_input") # Use distinct key
+        
+        try:
+            species_electrons = json.loads(species_e_str)
+            st.session_state['species_e_str_val'] = species_e_str # Update state
+        except Exception as e:
+            st.error(f"Invalid JSON: {e}")
+            species_electrons = {}
+
+        if st.button("🔄 Generate Current Density Plot"):
             with st.spinner("Calculating and Plotting..."):
                 try:
                     create_plots(

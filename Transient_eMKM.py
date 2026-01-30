@@ -256,7 +256,7 @@ if st.session_state.get("simulation_complete"):
         st.warning(f"No plots found initially in {base_dir}")
     
     # Coverage Table
-    summary_csv = os.path.join(base_dir, "coverage_summary.csv")
+    summary_csv = os.path.join(base_dir, "plots", "coverage_summary.csv")
     if os.path.exists(summary_csv):
         st.subheader("📊 Coverage Data")
         try:
@@ -286,12 +286,24 @@ if st.session_state.get("simulation_complete"):
         # Prepare defaults - ensure we filter only species that are available
         import json
         default_electrons_map = {'CH3OH': 6, 'CH4': 8, 'CO': 2, 'HCOOH': 2, 'H2': 2, 'CH2O': 4}
-        # Pre-fill with reasonable defaults for known species, 0 for others
+        
+        # ALWAYS force the dictionary to include all available species
+        # If species is known, use default electron count. If unknown, use 0.
         current_defaults = {s: default_electrons_map.get(s, 0) for s in avail_species}
         
-        # Recover text from session state if available or use defaults
-        if 'species_e_str_val' not in st.session_state:
-             st.session_state['species_e_str_val'] = json.dumps(current_defaults, indent=2)
+        # If user has customized it, we try to preserve their numbers, but we MUST ensure all keys exist
+        if 'species_e_str_val' in st.session_state:
+            try:
+                prev_data = json.loads(st.session_state['species_e_str_val'])
+                # Update current_defaults with user's specific values where they exist
+                for k, v in prev_data.items():
+                    if k in current_defaults:
+                        current_defaults[k] = v
+            except:
+                pass # If parse fail, revert to defaults
+        
+        # Update/Set the state value
+        st.session_state['species_e_str_val'] = json.dumps(current_defaults, indent=2)
 
         species_e_str = st.text_area("Species Electron Count (JSON)", 
                                    value=st.session_state['species_e_str_val'],

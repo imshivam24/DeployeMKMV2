@@ -95,9 +95,8 @@ with st.sidebar.expander("Advanced Tolerances"):
     pre_exp = st.sidebar.number_input("Pre-exponential Factor", value=6.21e12, format="%.2e")
 
 st.sidebar.subheader("Sweep Mode Settings")
-enable_sweep = st.sidebar.checkbox("Enable Sweep Mode", value=True)
+enable_sweep = st.sidebar.checkbox("Enable Sweep Mode (with Coverage Propagation)", value=True)
 sweep_rate = st.sidebar.number_input("Sweep Rate (V/s)", value=0.1)
-use_prop = st.sidebar.checkbox("Use Coverage Propagation", value=True)
 
 # 5. Output Settings
 output_dir = "results_web"
@@ -160,7 +159,7 @@ if run_pressed:
                 config.reltol = reltol
                 config.enable_sweep_mode = enable_sweep
                 config.sweep_rate = sweep_rate
-                config.use_coverage_propagation = use_prop
+                config.use_coverage_propagation = enable_sweep
                 config.input_excel_path = tmp_path
                 config.executable_path = exe_path
                 config.pre_exponential_factor = pre_exp

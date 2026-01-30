@@ -269,7 +269,7 @@ if st.session_state.get("simulation_complete"):
     st.markdown("---")
     st.subheader("⚡ Current Density Analysis")
         
-    st.markdown("Calculate current density of any specie i using:")
+    st.markdown("Calculate current density of any species i using:")
     st.latex(r"j_i = F \times \rho_{site} \times n_i \times r_i")
     st.info("where $F$ is Faraday's constant, $\\rho_{site}$ is site density, $n_i$ is electron consumed, and $r_i$ is production rate.")
 

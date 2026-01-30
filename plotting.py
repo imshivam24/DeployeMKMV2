@@ -256,7 +256,7 @@ class CoveragePlotter:
         """Plot current density vs potential."""
         # Validation checks
         if not target_species:
-            logger.warning("No target species specified for current density plot. Skipping.")
+            logger.info("No target species specified for current density plot. Skipping.")
             return
 
         if not species_electrons:
